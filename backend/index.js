@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require("cors");
+const { Timestamp } = require('mongodb');
 
 const app = express();
 
@@ -11,20 +12,38 @@ mongoose.connect('mongodb+srv://ktruong3_db_user:QQeUxTTQHQHN1qQE@cluster0.pvjrd
 .catch((err) => 
     console.log('Error connecting to database', err));
 
-//schema for users
-const UserSchema = new mongoose.Schema ({
-    name: {
-        type: String,
-        required: true,
+//schema for users when they enter the mailroom info
+// date (MM/DD), time, courier, to, from, PO #
+// type, required, maxlength, enum, message
+const UserSchema = new Schema ({
+    // col 1: date
+    // MM/DD format
+    date: { 
+        type: Date, 
+        required: [true, 'MM/DD'], 
+        maxlength: 5 
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
+    time: { 
+        type: Timestamp, 
+        required: [true],
     },
-    date: {
-        type: Date,
-        default: Date.now,
+    courier: { 
+        type: String, 
+        required: true, 
+        maxlength: 2,
+        enum: ['UPS', 'AMZ', 'FDX', 'USPS'],
+    },
+    to: {
+        type: String,
+        required: true,    
+    },
+    from: {
+        type: String,
+        required: true,    
+    },
+    po_num: { 
+        type: String,
+        required: true,    
     },
 });
 
@@ -63,4 +82,4 @@ app.post("/register", async (req, resp) => {
 // start server
 app.listen(5000, () => {
     console.log("App is running on port 5000");
-});
+}); 
