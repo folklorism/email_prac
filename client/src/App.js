@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
+import { Dropdown } from './Dropdown.js';
+import { Element } from './Element.js';
+import { Couriers } from './Couriers.js';
+import { PoType } from './PoType.js';
+
+// import DateSelector from './DateSelector.js';
+// import DatePicker from 'react-datepicker';
+// import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
 
 function App() {
@@ -24,18 +32,14 @@ function App() {
       setEmail("");
       setName("");
     }
-  }
+  }  
 
   return (
     <div className="App">
-        <input type="text" placeholder="name"
-          value={name} onChange={(e) => setName(e.target.value)} />
-         <input type="email" placeholder="email"
-          value={email} onChange={(e) => setEmail(e.target.value)} />
-
-        <button type="submit" onClick={handleOnSubmit}> Submit </button>
-    </div>
+      <div>
+        <Dropdown couriers = {<Couriers /> } poType = { <PoType /> } />
+      </div>
+     </div>
   );
 }
-
 export default App;
